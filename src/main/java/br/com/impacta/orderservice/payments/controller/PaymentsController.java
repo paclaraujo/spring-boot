@@ -23,7 +23,7 @@ public class PaymentsController {
     public ResponseEntity<String> save(@RequestBody Payment payment) {
         service.save(payment);
         return new ResponseEntity<>("http://localhost:8080/payments/findById/" + payment.getTransactionId(),
-                HttpStatus.ACCEPTED);
+                HttpStatus.CREATED);
     }
 
     @PostMapping("/update/{transactionId}")
