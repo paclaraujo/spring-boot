@@ -1,9 +1,11 @@
-package br.com.impacta.orderservice.orders.dto;
+package br.com.impacta.orderservice.orders.entity;
+
+import br.com.impacta.orderservice.orders.dto.OrderDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class OrderDTO {
+public class Order {
     private String email;
     private String fullName;
     private String address;
@@ -20,7 +22,7 @@ public class OrderDTO {
     private String cardExpiringDate;
     private String cardFlag;
 
-    public OrderDTO(String email, String fullName, String address, int orderId, List<String> description,
+    public Order(String email, String fullName, String address, int orderId, List<String> description,
                     int orderItemsQuantity, List<BigDecimal> unitPrice, BigDecimal totalPrice, String paymentMethod,
                     String orderDate, String status, int transactionId, String cardNumber, String cardExpiringDate,
                     String cardFlag) {
