@@ -2,6 +2,7 @@ package br.com.impacta.orderservice.orders.services;
 
 import br.com.impacta.orderservice.orders.dto.OrderDTO;
 import br.com.impacta.orderservice.orders.entity.Order;
+import br.com.impacta.orderservice.orders.exceptions.EntityNotFoundException;
 import br.com.impacta.orderservice.orders.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,14 +16,16 @@ public class OrdersService {
         this.currentId = 0;
     }
 
-    public OrderDTO findOrderById(int orderId){
+    public OrderDTO findOrderById(int orderId) throws EntityNotFoundException {
         Order order = repository.findByOrderId(orderId);
 
-        OrderDTO orderDTO = new OrderDTO(order.getEmail(), order.getFullName(), order.getAddress(),
+        if (order == null)
+            throw new EntityNotFoundException("Order " + orderId + " not found.");
+
+        return new OrderDTO(order.getEmail(), order.getFullName(), order.getAddress(),
                 order.getOrderId(), order.getDescription(), order.getOrderItemsQuantity(), order.getUnitPrice(),
                 order.getTotalPrice(), order.getPaymentMethod(), order.getOrderDate(), order.getStatus(),
                 order.getTransactionId(), order.getCardNumber(), order.getCardExpiringDate(), order.getCardFlag());
-        return orderDTO;
     }
 
     public int save(OrderDTO order){
@@ -36,7 +39,10 @@ public class OrdersService {
         return order.getOrderId();
     }
 
-    public void update(int orderId, OrderDTO order){
+    public void update(int orderId, OrderDTO order) throws EntityNotFoundException {
+        if (repository.findByOrderId(orderId) == null)
+            throw new EntityNotFoundException("Order " + orderId + " not found.");
+
         repository.update(orderId, order);
     }
 
